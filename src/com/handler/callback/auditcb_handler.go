@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"go-reco-service/src/com/models"
 	"io"
 	"log"
 	"net/http"
@@ -17,6 +18,11 @@ type Data struct {
 
 type Message struct {
 	Name, Text string
+}
+type Trainer struct {
+	Name string
+	Age  int
+	City string
 }
 
 func AuditCallbackHandler(c *gin.Context) {
@@ -55,5 +61,10 @@ func AuditCallbackHandler(c *gin.Context) {
 	//	fmt.Println(err)
 	//}
 	//c.String(http.StatusOK, "name:%s,id:%s,mixSign:%s", engineName, resID, mixSign)
+
+	// 单个插入
+	ash := Trainer{"Ash", 10, "Pallet Town"}
+	InsertOneResult := models.NewMgo().InsertOne(ash)
+	fmt.Println("Inserted a single document: ", InsertOneResult)
 	c.JSON(http.StatusOK, gin.H{"engineName": engineName, "resID": resID, "mixSign": mixSign})
 }
