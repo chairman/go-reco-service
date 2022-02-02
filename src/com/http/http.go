@@ -15,8 +15,8 @@ import (
 func Lanuch(serverAddr string) {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	auditcbHandler := r.Group("auditcb")
-	auditcbHandler.Any("/:engine_name/:mix_sign/:res_id", callback.AuditCallbackHandler)
+	auditcbHandler := r.Group("reco")
+	auditcbHandler.Any("/:app_name/:res_type", callback.AuditCallbackHandler)
 
 	r.GET("/", func(c *gin.Context) {
 		c.Redirect(302, "https://www.baidu.com/")

@@ -13,7 +13,7 @@ import (
 )
 
 // 集合名称
-const TrainerCollectionName = "trainer"
+const TrainerCollectionName = "tb_base_rules"
 
 // TrainerModel
 type Mgo struct {
