@@ -18,7 +18,6 @@ type Rule struct {
 func AddCallbackHandler(c *gin.Context) {
 	appName := c.Param("app_name")
 	resType := c.Param("res_type")
-
 	rawRes, err := c.GetRawData()
 	if err != nil {
 		log.Fatal("callback http body is empty")
@@ -30,14 +29,14 @@ func AddCallbackHandler(c *gin.Context) {
 	}
 	jsonstr := string(rawRes)
 	dec := json.NewDecoder(strings.NewReader(jsonstr))
-	var m Rule
-	if err := dec.Decode(&m); err == io.EOF {
+	var rule Rule
+	if err := dec.Decode(&rule); err == io.EOF {
 		fmt.Println(err)
 	} else if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("%s: %s \n ", m.RuleId, m.Description)
-	InsertOneResult := models.NewMgo().InsertOne(m)
+	fmt.Printf("%s: %s \n ", rule.RuleId, rule.Description)
+	InsertOneResult := models.NewMgo().InsertOne(rule)
 	fmt.Println("Inserted a single document: ", InsertOneResult)
 	c.JSON(http.StatusOK, gin.H{"appName": appName, "resType": resType})
 }
