@@ -11,20 +11,11 @@ import (
 	"strings"
 )
 
-type Message struct {
+type Rule struct {
 	RuleId, Description string
 }
 
-//type Message struct {
-//	Name, Text string
-//}
-type Trainer struct {
-	Name string
-	Age  int
-	City string
-}
-
-func AuditCallbackHandler(c *gin.Context) {
+func AddCallbackHandler(c *gin.Context) {
 	appName := c.Param("app_name")
 	resType := c.Param("res_type")
 
@@ -39,15 +30,13 @@ func AuditCallbackHandler(c *gin.Context) {
 	}
 	jsonstr := string(rawRes)
 	dec := json.NewDecoder(strings.NewReader(jsonstr))
-	var m Message
+	var m Rule
 	if err := dec.Decode(&m); err == io.EOF {
 		fmt.Println(err)
 	} else if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Printf("%s: %s \n ", m.RuleId, m.Description)
-	// 单个插入
-	//ash := Trainer{"Ash", 10, "Pallet Town"}
 	InsertOneResult := models.NewMgo().InsertOne(m)
 	fmt.Println("Inserted a single document: ", InsertOneResult)
 	c.JSON(http.StatusOK, gin.H{"appName": appName, "resType": resType})
