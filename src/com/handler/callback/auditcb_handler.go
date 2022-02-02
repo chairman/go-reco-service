@@ -54,5 +54,6 @@ func AuditCallbackHandler(c *gin.Context) {
 	//} else {
 	//	fmt.Println(err)
 	//}
-	c.String(http.StatusOK, "name:%s,id:%s,mixSign:%s", engineName, resID, mixSign)
+	//c.String(http.StatusOK, "name:%s,id:%s,mixSign:%s", engineName, resID, mixSign)
+	c.JSON(http.StatusOK, gin.H{"engineName": engineName, "resID": resID, "mixSign": mixSign})
 }
