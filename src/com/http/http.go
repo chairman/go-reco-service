@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"go-reco-service/src/com/handler/callback"
+	"go-reco-service/src/com/handler"
 	"log"
 	"net/http"
 	"os"
@@ -16,7 +16,7 @@ func Lanuch(serverAddr string) {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	auditcbHandler := r.Group("/reco/config/v1")
-	auditcbHandler.Any("/add/:app_name/:res_type", callback.AddCallbackHandler)
+	auditcbHandler.Any("/add/:app_name/:res_type", handler.AddCallbackHandler)
 
 	r.GET("/", func(c *gin.Context) {
 		c.Redirect(302, "https://www.baidu.com/")
