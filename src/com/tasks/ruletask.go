@@ -2,16 +2,25 @@ package tasks
 
 import (
 	"github.com/robfig/cron"
+	"go-reco-service/src/com/models"
 	"log"
 )
 
-type Hello struct {
-	Str string
-}
+//type Ma struct {
+//	Str string
+//}
+//
+//var ma Ma
 
-func (h Hello) Run() {
-	log.Println(h.Str)
-}
+//type Hello struct {
+//	Str string
+//}
+//
+//func (h Hello) Run() {
+//	log.Println(h.Str)
+//	ma := h.Str
+//	log.Println(ma)
+//}
 
 func Init() {
 	Service()
@@ -23,7 +32,7 @@ func Service() {
 	if err != nil {
 		log.Println("Parse error")
 	}
-	h2 := Hello{"I Hate You!"}
+	h2 := models.Hello{Str: "I Hate You!"}
 	c.Schedule(s, h2)
 	// 启动任务
 	c.Start()

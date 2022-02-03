@@ -102,5 +102,6 @@ func GetHandler(c *gin.Context) {
 		log.Fatal(err)
 	}
 	fmt.Println("find a single document: ", result)
+	fmt.Println("find a single Ma: ", models.Ma)
 	c.JSON(http.StatusOK, gin.H{"msg": "ok", "code": 200, "data": result})
 }
