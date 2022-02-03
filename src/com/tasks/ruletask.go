@@ -4,6 +4,7 @@ import (
 	"github.com/robfig/cron"
 	"go-reco-service/src/com/models"
 	"log"
+	"strings"
 )
 
 func Init() {
@@ -16,8 +17,21 @@ func Service() {
 	if err != nil {
 		log.Println("Parse error")
 	}
-	h2 := models.Hello{Str: "I Hate You!"}
+	appName := "wifi"
+	resType := "video"
+	tbName := getTableName(appName, resType)
+	h2 := models.FetchUpdateRule{TbName: tbName}
 	c.Schedule(s, h2)
 	// 启动任务
 	c.Start()
+}
+
+func getTableName(appName string, resType string) string {
+	var build strings.Builder
+	build.WriteString("tb_base_rule_")
+	build.WriteString(appName)
+	build.WriteString("_")
+	build.WriteString(resType)
+	tbName := build.String()
+	return tbName
 }

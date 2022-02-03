@@ -4,11 +4,11 @@ import "log"
 
 var Ma string
 
-type Hello struct {
-	Str string
+type FetchUpdateRule struct {
+	TbName string
 }
 
-func (h Hello) Run() {
-	Ma = h.Str
+func (h FetchUpdateRule) Run() {
+	Ma = h.TbName
 	log.Println(Ma)
 }
