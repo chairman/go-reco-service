@@ -32,7 +32,6 @@ func AddHandler(c *gin.Context) {
 	rawRes, err := c.GetRawData()
 	if err != nil {
 		log.Fatal("callback http body is empty")
-
 		return
 	}
 	if len(rawRes) == 0 {
