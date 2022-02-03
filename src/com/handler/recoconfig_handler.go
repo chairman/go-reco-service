@@ -87,7 +87,21 @@ func DeleteHandler(c *gin.Context) {
 	resType := c.Param("res_type")
 	ruleId := c.Param("rule_id")
 	tbName := getTableName(appName, resType)
-	updateResult := models.NewMgo(tbName).Delete("ruleid", ruleId)
-	fmt.Println("Inserted a single document: ", updateResult)
-	c.JSON(http.StatusOK, gin.H{"appName": appName, "resType": resType})
+	DeletedCount := models.NewMgo(tbName).Delete("ruleid", ruleId)
+	fmt.Println("delete a single document count: ", DeletedCount)
+	c.JSON(http.StatusOK, gin.H{"msg": "ok", "code": 200})
+}
+
+func GetHandler(c *gin.Context) {
+	appName := c.Param("app_name")
+	resType := c.Param("res_type")
+	ruleId := c.Param("rule_id")
+	tbName := getTableName(appName, resType)
+	var result Rule
+	err := models.NewMgo(tbName).FindOne("ruleid", ruleId).Decode(&result)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("find a single document: ", result)
+	c.JSON(http.StatusOK, gin.H{"msg": "ok", "code": 200, "data": result})
 }
