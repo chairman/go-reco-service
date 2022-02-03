@@ -85,27 +85,9 @@ func UpdateHandler(c *gin.Context) {
 func DeleteHandler(c *gin.Context) {
 	appName := c.Param("app_name")
 	resType := c.Param("res_type")
-	rawRes, err := c.GetRawData()
-	if err != nil {
-		log.Fatal("callback http body is empty")
-		return
-	}
-	if len(rawRes) == 0 {
-		log.Fatal("callback http body is empty")
-		return
-	}
-	jsonstr := string(rawRes)
-	dec := json.NewDecoder(strings.NewReader(jsonstr))
-	var rule Rule
-	if err := dec.Decode(&rule); err == io.EOF {
-		fmt.Println(err)
-	} else if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("%s: %s \n ", rule.RuleId, rule.Description)
+	ruleId := c.Param("rule_id")
 	tbName := getTableName(appName, resType)
-	data := bson.M{"$set": bson.M{"description": rule.Description}}
-	updateResult := models.NewMgo(tbName).UpdateOne("ruleid", rule.RuleId, data)
+	updateResult := models.NewMgo(tbName).Delete("ruleid", ruleId)
 	fmt.Println("Inserted a single document: ", updateResult)
 	c.JSON(http.StatusOK, gin.H{"appName": appName, "resType": resType})
 }
