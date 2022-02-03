@@ -13,7 +13,7 @@ import (
 )
 
 // 集合名称
-const TrainerCollectionName = "tb_base_rules"
+//const CollectionName = "tb_base_rules"
 
 // TrainerModel
 type Mgo struct {
@@ -21,9 +21,9 @@ type Mgo struct {
 }
 
 // NewTrainer
-func NewMgo() *Mgo {
+func NewMgo(CollectionName string) *Mgo {
 	mgo := new(Mgo)
-	mgo.collection = drivers.MgoClient.Database(drivers.MgoDbName).Collection(TrainerCollectionName)
+	mgo.collection = drivers.MgoClient.Database(drivers.MgoDbName).Collection(CollectionName)
 	return mgo
 }
 
