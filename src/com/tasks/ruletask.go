@@ -6,22 +6,6 @@ import (
 	"log"
 )
 
-//type Ma struct {
-//	Str string
-//}
-//
-//var ma Ma
-
-//type Hello struct {
-//	Str string
-//}
-//
-//func (h Hello) Run() {
-//	log.Println(h.Str)
-//	ma := h.Str
-//	log.Println(ma)
-//}
-
 func Init() {
 	Service()
 }
@@ -36,7 +20,4 @@ func Service() {
 	c.Schedule(s, h2)
 	// 启动任务
 	c.Start()
-	// 关闭任务
-	//defer c.Stop()
-	//select {}
 }
