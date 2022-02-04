@@ -11,15 +11,28 @@ type FetchUpdateRule struct {
 	TbName string
 }
 
+func (h FetchUpdateRule) Run() {
+	RuleConfigs = getRuleConfigs(h)
+	jsons, errs := json.Marshal(RuleConfigs) //转换成JSON返回的是byte[]
+	if errs != nil {
+		fmt.Println(errs.Error())
+	}
+	fmt.Printf("Found multiple documents (array of pointers): %+v\n", string(jsons))
+
+}
+
 var RuleConfigs []*RuleConfig
 
 type Rule struct {
-	RuleId, Order, Description, OP string
-	Selector                       Selector
-	executor                       ParameterizedExecutor
+	RuleId      int
+	Order       int
+	Description string
+	OP          string
+	Selector    Selector
+	executor    ParameterizedExecutor
 }
 
-func (h FetchUpdateRule) Run() {
+func getRuleConfigs(h FetchUpdateRule) []*RuleConfig {
 	cur := NewMgo(h.TbName).FindAll(0, 1000, 1)
 	var rs []*RuleConfig
 	for cur.Next(context.TODO()) {
@@ -40,12 +53,7 @@ func (h FetchUpdateRule) Run() {
 	// Close the cursor once finished
 	err := cur.Close(context.TODO())
 	if err != nil {
-		return
+		return nil
 	}
-
-	jsons, errs := json.Marshal(RuleConfigs) //转换成JSON返回的是byte[]
-	if errs != nil {
-		fmt.Println(errs.Error())
-	}
-	fmt.Printf("Found multiple documents (array of pointers): %+v\n", string(jsons))
+	return RuleConfigs
 }
