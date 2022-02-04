@@ -20,7 +20,7 @@ func Lanuch(serverAddr string) {
 	auditcbHandler.PUT("/:app_name/:res_type", handler.UpdateHandler)
 	auditcbHandler.DELETE("/:app_name/:res_type/:rule_id", handler.DeleteHandler)
 	auditcbHandler.GET("/:app_name/:res_type/:rule_id", handler.GetHandler)
-	auditcbHandler.GET("/rules/:app_name/:res_type", handler.GetRulesHandler)
+	auditcbHandler.GET("/:app_name/:res_type/rules", handler.GetRulesHandler)
 
 	r.GET("/", func(c *gin.Context) {
 		c.Redirect(302, "https://www.baidu.com/")
