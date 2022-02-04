@@ -6,40 +6,41 @@ import (
 	"log"
 )
 
-var Ma string
-
 type FetchUpdateRule struct {
 	TbName string
 }
 
+var RuleConfigs []*RuleConfig
+
 type Rule struct {
-	RuleId, Order, Description, OP, Selector, Executor string
+	RuleId, Order, Description, OP string
+	Selector                       Selector
+	executor                       ParameterizedExecutor
 }
 
-var Results []*Rule
-
 func (h FetchUpdateRule) Run() {
-	Ma = h.TbName
 	cur := NewMgo(h.TbName).FindAll(0, 1000, 1)
-	var rs []*Rule
+	var rs []*RuleConfig
 	for cur.Next(context.TODO()) {
 		// create a value into which the single document can be decoded
-		var elem Rule
+		var elem RuleConfig
 		err := cur.Decode(&elem)
 		if err != nil {
 			log.Fatal(err)
 		}
 		rs = append(rs, &elem)
 	}
-	Results = rs
+	RuleConfigs = rs
 
 	if err := cur.Err(); err != nil {
 		log.Fatal(err)
 	}
 
 	// Close the cursor once finished
-	cur.Close(context.TODO())
+	err := cur.Close(context.TODO())
+	if err != nil {
+		return
+	}
 
-	fmt.Printf("Found multiple documents (array of pointers): %+v\n", Results)
-	log.Println(Ma)
+	fmt.Printf("Found multiple documents (array of pointers): %+v\n", RuleConfigs)
 }

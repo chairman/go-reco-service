@@ -15,12 +15,15 @@ import (
 func Lanuch(serverAddr string) {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	auditcbHandler := r.Group("/reco/config/v1")
-	auditcbHandler.POST("/:app_name/:res_type", handler.AddHandler)
-	auditcbHandler.PUT("/:app_name/:res_type", handler.UpdateHandler)
-	auditcbHandler.DELETE("/:app_name/:res_type/:rule_id", handler.DeleteHandler)
-	auditcbHandler.GET("/:app_name/:res_type/:rule_id", handler.GetHandler)
-	auditcbHandler.GET("/:app_name/:res_type/rules", handler.GetRulesHandler)
+	recoConfigHandler := r.Group("/reco/config/v1")
+	recoConfigHandler.POST("/:app_name/:res_type", handler.AddHandler)
+	recoConfigHandler.PUT("/:app_name/:res_type", handler.UpdateHandler)
+	recoConfigHandler.DELETE("/:app_name/:res_type/:rule_id", handler.DeleteHandler)
+	recoConfigHandler.GET("/:app_name/:res_type/:rule_id", handler.GetHandler)
+	recoConfigHandler.GET("/:app_name/:res_type/rules", handler.GetRulesHandler)
+
+	recoWorkHandler := r.Group("/reco/works/v1")
+	recoWorkHandler.POST("/:app_name/:res_type", handler.AddHandler)
 
 	r.GET("/", func(c *gin.Context) {
 		c.Redirect(302, "https://www.baidu.com/")
