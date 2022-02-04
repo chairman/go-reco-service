@@ -16,7 +16,7 @@ type Rule struct {
 	RuleId, Order, Description, OP, Selector, Executor string
 }
 
-var results []*Rule
+var Results []*Rule
 
 func (h FetchUpdateRule) Run() {
 	Ma = h.TbName
@@ -31,7 +31,7 @@ func (h FetchUpdateRule) Run() {
 		}
 		rs = append(rs, &elem)
 	}
-	results = rs
+	Results = rs
 
 	if err := cur.Err(); err != nil {
 		log.Fatal(err)
@@ -40,6 +40,6 @@ func (h FetchUpdateRule) Run() {
 	// Close the cursor once finished
 	cur.Close(context.TODO())
 
-	fmt.Printf("Found multiple documents (array of pointers): %+v\n", results)
+	fmt.Printf("Found multiple documents (array of pointers): %+v\n", Results)
 	log.Println(Ma)
 }

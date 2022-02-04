@@ -102,6 +102,11 @@ func GetHandler(c *gin.Context) {
 		log.Fatal(err)
 	}
 	fmt.Println("find a single document: ", result)
-	fmt.Println("find a single Ma: ", models.Ma)
+	fmt.Println("find a single Ma: ", models.Results)
 	c.JSON(http.StatusOK, gin.H{"msg": "ok", "code": 200, "data": result})
+}
+
+func GetRulesHandler(c *gin.Context) {
+	fmt.Println("find a single Ma: ", models.Results)
+	c.JSON(http.StatusOK, gin.H{"msg": "ok", "code": 200, "data": models.Results})
 }
