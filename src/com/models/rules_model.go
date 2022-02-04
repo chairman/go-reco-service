@@ -2,6 +2,7 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 )
@@ -42,5 +43,9 @@ func (h FetchUpdateRule) Run() {
 		return
 	}
 
-	fmt.Printf("Found multiple documents (array of pointers): %+v\n", RuleConfigs)
+	jsons, errs := json.Marshal(RuleConfigs) //转换成JSON返回的是byte[]
+	if errs != nil {
+		fmt.Println(errs.Error())
+	}
+	fmt.Printf("Found multiple documents (array of pointers): %+v\n", string(jsons))
 }
