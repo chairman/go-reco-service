@@ -2,7 +2,6 @@ package models
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
 )
@@ -11,26 +10,26 @@ type FetchUpdateRule struct {
 	TbName string
 }
 
-func (h FetchUpdateRule) Run() {
-	RuleConfigs = getRuleConfigs(h)
-	jsons, errs := json.Marshal(RuleConfigs) //转换成JSON返回的是byte[]
-	if errs != nil {
-		fmt.Println(errs.Error())
+func (fetchUpdateRule FetchUpdateRule) Run() {
+	RuleConfigs = getRuleConfigs(fetchUpdateRule)
+	var rs []*Rule
+	for _, config := range RuleConfigs {
+		selectorConfig := config.Selector
+		exectorConfig := config.Executor
+		fmt.Printf("%s: %s \n", selectorConfig, exectorConfig)
+		var rule = new(Rule)
+		rule.RuleId = config.RuleId
+		rule.Order = config.Order
+		rule.Description = config.Description
+		rule.OP = config.OP
+		rs = append(rs, rule)
 	}
-	fmt.Printf("Found multiple documents (array of pointers): %+v\n", string(jsons))
-
+	Rules = rs
 }
 
 var RuleConfigs []*RuleConfig
 
-type Rule struct {
-	RuleId      int
-	Order       int
-	Description string
-	OP          string
-	Selector    Selector
-	executor    ParameterizedExecutor
-}
+var Rules []*Rule
 
 func getRuleConfigs(h FetchUpdateRule) []*RuleConfig {
 	cur := NewMgo(h.TbName).FindAll(0, 1000, 1)
