@@ -38,6 +38,7 @@ func (registry *Registry) ParseExecutor(exectorConfigStr string) ParameterizedEx
 		if excutorType.ValueString == "" {
 			return nil
 		}
+		//return GetRegistryInstance().ExecutorMap["type"]
 	}
 	return nil
 }
