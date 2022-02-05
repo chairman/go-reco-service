@@ -12,6 +12,7 @@ type FetchUpdateRule struct {
 
 func (fetchUpdateRule FetchUpdateRule) Run() {
 	RuleConfigs = getRuleConfigs(fetchUpdateRule)
+	registry := GetRegistryInstance()
 	var rs []*Rule
 	for _, config := range RuleConfigs {
 		selectorConfig := config.Selector
@@ -22,7 +23,13 @@ func (fetchUpdateRule FetchUpdateRule) Run() {
 		rule.Order = config.Order
 		rule.Description = config.Description
 		rule.OP = config.OP
-		rs = append(rs, rule)
+		rule.Selector = registry.ParseSelector(selectorConfig)
+		rule.Executor = registry.ParseExecutor(exectorConfig)
+		if rule.Executor == nil {
+			log.Println("update rule err:", config.RuleId)
+		} else {
+			rs = append(rs, rule)
+		}
 	}
 	Rules = rs
 }
