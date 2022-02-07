@@ -10,22 +10,26 @@ type Eq struct {
 	value interface{}
 }
 
-func (Eq) judge(context Context) bool {
-	return true
+func (o *Eq) judge(context Context) bool {
+	current := context.state.cache[o.key]
+	if current == "" {
+		return false
+	}
+	return current == o.value
 }
 
-func (Eq) getName() string {
+func (o *Eq) getName() string {
 	return "$eq"
 }
 
 type True struct {
 }
 
-func (True) judge(context Context) bool {
+func (o *True) judge(context Context) bool {
 	return true
 }
 
-func (True) getName() string {
+func (o *True) getName() string {
 	return "$true"
 }
 
