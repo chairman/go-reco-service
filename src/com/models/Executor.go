@@ -1,5 +1,7 @@
 package models
 
+import "fmt"
+
 type Executor interface {
 	init(context Context)
 	process(context Context)
@@ -12,13 +14,19 @@ type Order struct {
 	executors []Executor
 }
 
-func (Order) init(context Context) {
+func (o *Order) init(context Context) {
 }
 
-func (Order) process(context Context) {
+func (o *Order) process(context Context) {
+	if o.executors != nil {
+		for _, executor := range o.executors {
+			fmt.Printf("%s: \n", executor.getName())
+			executor.process(context)
+		}
+	}
 }
 
-func (Order) getName() string {
+func (o *Order) getName() string {
 	return "order"
 }
 
@@ -28,12 +36,13 @@ type Uvexecutor struct {
 	KeyPrefix string
 }
 
-func (Uvexecutor) init(context Context) {
+func (o *Uvexecutor) init(context Context) {
 }
 
-func (Uvexecutor) process(context Context) {
+func (o *Uvexecutor) process(context Context) {
+	fmt.Printf("%s: %s \n", o.Type, o.Id)
 }
 
-func (Uvexecutor) getName() string {
+func (o *Uvexecutor) getName() string {
 	return "uvexecutor"
 }
