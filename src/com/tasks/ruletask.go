@@ -13,7 +13,7 @@ func Init() {
 
 func Service() {
 	c := cron.New()
-	s, err := cron.Parse("*/3 * * * * *")
+	s, err := cron.Parse("*/10 * * * * *")
 	if err != nil {
 		log.Println("Parse error")
 	}
