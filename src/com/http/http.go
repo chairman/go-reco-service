@@ -23,7 +23,7 @@ func Lanuch(serverAddr string) {
 	recoConfigHandler.GET("/:app_name/:res_type/rules", handler.GetRulesHandler)
 
 	recoWorkHandler := r.Group("/reco/works/v1")
-	recoWorkHandler.POST("/:app_name/:res_type", handler.AddHandler)
+	recoWorkHandler.POST("/:app_name/:res_type", handler.RecoProcessHandler)
 
 	r.GET("/", func(c *gin.Context) {
 		c.Redirect(302, "https://www.baidu.com/")

@@ -119,3 +119,13 @@ func GetRulesHandler(c *gin.Context) {
 	fmt.Printf("Found multiple documents (array of pointers): %+v\n", string(jsons))
 	c.JSON(http.StatusOK, gin.H{"msg": "ok", "code": 200, "data": models.RuleConfigs})
 }
+
+func RecoProcessHandler(c *gin.Context) {
+	fmt.Println("find a single Rules: ", models.Rules)
+	jsons, errs := json.Marshal(models.Rules) //转换成JSON返回的是byte[]
+	if errs != nil {
+		fmt.Println(errs.Error())
+	}
+	fmt.Printf("Found multiple documents (array of pointers): %+v\n", string(jsons))
+	c.JSON(http.StatusOK, gin.H{"msg": "ok", "code": 200, "data": models.RuleConfigs})
+}
