@@ -6,5 +6,5 @@ type Rule struct {
 	Description string
 	OP          string
 	Selector    Selector
-	Executor    ParameterizedExecutor
+	Executor    Executor
 }
