@@ -155,6 +155,8 @@ func RecoProcessHandler(c *gin.Context) {
 			rs = executor.Process(context)
 			fmt.Printf("Description:%s,RuleId: %s \n ", rule.Description, rule.RuleId)
 			fmt.Printf("Description:%s,RuleId: %s \n ", executor.GetName())
+			c.JSON(http.StatusOK, gin.H{"msg": "ok", "code": 200, "data": rs})
+			return
 		}
 	}
 	c.JSON(http.StatusOK, gin.H{"msg": "ok", "code": 200, "data": rs})

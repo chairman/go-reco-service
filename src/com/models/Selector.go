@@ -98,93 +98,86 @@ func (o *True) getName() string {
 }
 
 type And struct {
+	selectors []Selector
 }
 
-func (And) Judge(context Context) bool {
+func (o *And) Judge(context Context) bool {
+	if o.selectors != nil {
+		for _, selector := range o.selectors {
+			if !selector.Judge(context) {
+				return false
+			}
+		}
+	}
 	return true
 }
 
-func (And) getName() string {
+func (o *And) getName() string {
 	return "$and"
 }
 
 type Or struct {
+	selectors []Selector
 }
 
-func (Or) Judge(context Context) bool {
-	return true
+func (o *Or) Judge(context Context) bool {
+	if len(o.selectors) == 0 {
+		return true
+	}
+	if o.selectors != nil {
+		for _, selector := range o.selectors {
+			if selector.Judge(context) {
+				return true
+			}
+		}
+	}
+	return false
 }
 
-func (Or) getName() string {
+func (o *Or) getName() string {
 	return "$or"
 }
 
 type Gt struct {
 }
 
-func (Gt) Judge(context Context) bool {
+func (o *Gt) Judge(context Context) bool {
 	return true
 }
 
-func (Gt) getName() string {
+func (o *Gt) getName() string {
 	return "$gt"
 }
 
 type Gte struct {
 }
 
-func (Gte) Judge(context Context) bool {
+func (o *Gte) Judge(context Context) bool {
 	return true
 }
 
-func (Gte) getName() string {
+func (o *Gte) getName() string {
 	return "$gte"
 }
 
 type Lt struct {
 }
 
-func (Lt) Judge(context Context) bool {
+func (o *Lt) Judge(context Context) bool {
 	return true
 }
 
-func (Lt) getName() string {
+func (o *Lt) getName() string {
 	return "$lt"
 }
 
 type Lte struct {
 }
 
-func (Lte) Judge(context Context) bool {
+func (o *Lte) Judge(context Context) bool {
 	return true
 }
 
-func (Lte) getName() string {
+func (o *Lte) getName() string {
 	return "$lte"
-}
-
-type SelectorFactory struct {
-}
-
-func (*SelectorFactory) CreateSelector(selectorType string) Selector {
-	switch selectorType {
-	case "$true":
-		return &True{}
-	case "$eq":
-		return &Eq{}
-	case "$and":
-		return &And{}
-	case "$or":
-		return &Or{}
-	case "$gt":
-		return &Gt{}
-	case "$gte":
-		return &Gte{}
-	case "$lt":
-		return &Lt{}
-	case "$lte":
-		return &Lte{}
-	default:
-		return nil
-	}
 }

@@ -7,18 +7,6 @@ type Executor interface {
 	GetName() string
 }
 
-type testInt func(int) bool
-
-func filter(slice []int, f testInt) []int {
-	var result []int
-	for _, value := range slice {
-		if f(value) {
-			result = append(result, value)
-		}
-	}
-	return result
-}
-
 type Order struct {
 	Id        int
 	Type      string

@@ -72,9 +72,27 @@ func CreateSelector(selectorType string, selectorNode *utils.JsonNode) Selector 
 		}
 		return nil
 	case "$and":
-		return &And{}
+		nodes := selectorNode.StructNodes[selectorType]
+		arraysStruct := nodes.ToJsonNode().ArraysStruct
+		nodesSize := len(arraysStruct)
+		fmt.Println(" selector.nodesSize:", nodesSize)
+		fmt.Println(" executor.getName:", nodesSize)
+		var selectors = make([]Selector, nodesSize)
+		for i := 0; i < len(arraysStruct); i++ {
+			selectors[i] = ParseSelector(arraysStruct[i].ToJsonNode())
+		}
+		return &And{selectors}
 	case "$or":
-		return &Or{}
+		nodes := selectorNode.StructNodes[selectorType]
+		arraysStruct := nodes.ToJsonNode().ArraysStruct
+		nodesSize := len(arraysStruct)
+		fmt.Println(" selector.nodesSize:", nodesSize)
+		fmt.Println(" executor.getName:", nodesSize)
+		var selectors = make([]Selector, nodesSize)
+		for i := 0; i < len(arraysStruct); i++ {
+			selectors[i] = ParseSelector(arraysStruct[i].ToJsonNode())
+		}
+		return &Or{selectors}
 	case "$gt":
 		return &Gt{}
 	case "$gte":
