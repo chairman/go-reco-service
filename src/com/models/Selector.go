@@ -139,10 +139,25 @@ func (o *Or) getName() string {
 }
 
 type Gt struct {
+	key   string
+	value interface{}
 }
 
 func (o *Gt) Judge(context Context) bool {
-	return true
+	current := context.Params[o.key]
+	if current == "" {
+		return false
+	}
+	value := Strval(o.value)
+	c, err := strconv.Atoi(current)
+	if err != nil {
+		return false
+	}
+	p, err := strconv.Atoi(value)
+	if err != nil {
+		return false
+	}
+	return c > p
 }
 
 func (o *Gt) getName() string {
@@ -150,10 +165,25 @@ func (o *Gt) getName() string {
 }
 
 type Gte struct {
+	key   string
+	value interface{}
 }
 
 func (o *Gte) Judge(context Context) bool {
-	return true
+	current := context.Params[o.key]
+	if current == "" {
+		return false
+	}
+	value := Strval(o.value)
+	c, err := strconv.Atoi(current)
+	if err != nil {
+		return false
+	}
+	p, err := strconv.Atoi(value)
+	if err != nil {
+		return false
+	}
+	return c >= p
 }
 
 func (o *Gte) getName() string {
@@ -161,10 +191,25 @@ func (o *Gte) getName() string {
 }
 
 type Lt struct {
+	key   string
+	value interface{}
 }
 
 func (o *Lt) Judge(context Context) bool {
-	return true
+	current := context.Params[o.key]
+	if current == "" {
+		return false
+	}
+	value := Strval(o.value)
+	c, err := strconv.Atoi(current)
+	if err != nil {
+		return false
+	}
+	p, err := strconv.Atoi(value)
+	if err != nil {
+		return false
+	}
+	return c < p
 }
 
 func (o *Lt) getName() string {
@@ -172,10 +217,25 @@ func (o *Lt) getName() string {
 }
 
 type Lte struct {
+	key   string
+	value interface{}
 }
 
 func (o *Lte) Judge(context Context) bool {
-	return true
+	current := context.Params[o.key]
+	if current == "" {
+		return false
+	}
+	value := Strval(o.value)
+	c, err := strconv.Atoi(current)
+	if err != nil {
+		return false
+	}
+	p, err := strconv.Atoi(value)
+	if err != nil {
+		return false
+	}
+	return c <= p
 }
 
 func (o *Lte) getName() string {

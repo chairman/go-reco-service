@@ -94,13 +94,57 @@ func CreateSelector(selectorType string, selectorNode *utils.JsonNode) Selector 
 		}
 		return &Or{selectors}
 	case "$gt":
-		return &Gt{}
+		nodes := selectorNode.StructNodes[selectorType]
+		arraysStruct := nodes.ToJsonNode().ArraysStruct
+		nodesSize := len(arraysStruct)
+		fmt.Println(" selector.nodesSize:", nodesSize)
+		if nodesSize == 2 {
+			key := arraysStruct[0].ToJsonNode().ValueString
+			value := int(arraysStruct[1].ToJsonNode().ValueNumber)
+			fmt.Println(" selector.key:", key)
+			fmt.Println(" selector.value:", value)
+			return &Gt{key, value}
+		}
+		return nil
 	case "$gte":
-		return &Gte{}
+		nodes := selectorNode.StructNodes[selectorType]
+		arraysStruct := nodes.ToJsonNode().ArraysStruct
+		nodesSize := len(arraysStruct)
+		fmt.Println(" selector.nodesSize:", nodesSize)
+		if nodesSize == 2 {
+			key := arraysStruct[0].ToJsonNode().ValueString
+			value := int(arraysStruct[1].ToJsonNode().ValueNumber)
+			fmt.Println(" selector.key:", key)
+			fmt.Println(" selector.value:", value)
+			return &Gte{key, value}
+		}
+		return nil
 	case "$lt":
-		return &Lt{}
+		nodes := selectorNode.StructNodes[selectorType]
+		arraysStruct := nodes.ToJsonNode().ArraysStruct
+		nodesSize := len(arraysStruct)
+		fmt.Println(" selector.nodesSize:", nodesSize)
+		if nodesSize == 2 {
+			key := arraysStruct[0].ToJsonNode().ValueString
+			value := int(arraysStruct[1].ToJsonNode().ValueNumber)
+			fmt.Println(" selector.key:", key)
+			fmt.Println(" selector.value:", value)
+			return &Lt{key, value}
+		}
+		return nil
 	case "$lte":
-		return &Lte{}
+		nodes := selectorNode.StructNodes[selectorType]
+		arraysStruct := nodes.ToJsonNode().ArraysStruct
+		nodesSize := len(arraysStruct)
+		fmt.Println(" selector.nodesSize:", nodesSize)
+		if nodesSize == 2 {
+			key := arraysStruct[0].ToJsonNode().ValueString
+			value := int(arraysStruct[1].ToJsonNode().ValueNumber)
+			fmt.Println(" selector.key:", key)
+			fmt.Println(" selector.value:", value)
+			return &Lte{key, value}
+		}
+		return nil
 	default:
 		return nil
 	}
