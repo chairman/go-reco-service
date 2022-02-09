@@ -1,5 +1,5 @@
 package models
 
 type Context struct {
-	state State
+	Params map[string]string
 }

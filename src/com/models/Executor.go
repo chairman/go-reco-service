@@ -3,9 +3,9 @@ package models
 import "fmt"
 
 type Executor interface {
-	init(context Context)
-	process(context Context)
-	getName() string
+	Init(context Context)
+	Process(context Context)
+	GetName() string
 }
 
 type Order struct {
@@ -14,19 +14,19 @@ type Order struct {
 	executors []Executor
 }
 
-func (o *Order) init(context Context) {
+func (o *Order) Init(context Context) {
 }
 
-func (o *Order) process(context Context) {
+func (o *Order) Process(context Context) {
 	if o.executors != nil {
 		for _, executor := range o.executors {
-			fmt.Printf("%s: \n", executor.getName())
-			executor.process(context)
+			fmt.Printf("%s: \n", executor.GetName())
+			executor.Process(context)
 		}
 	}
 }
 
-func (o *Order) getName() string {
+func (o *Order) GetName() string {
 	return "order"
 }
 
@@ -36,13 +36,13 @@ type Uvexecutor struct {
 	KeyPrefix string
 }
 
-func (o *Uvexecutor) init(context Context) {
+func (o *Uvexecutor) Init(context Context) {
 }
 
-func (o *Uvexecutor) process(context Context) {
-	fmt.Printf("%s: %s \n", o.Type, o.Id)
+func (o *Uvexecutor) Process(context Context) {
+	fmt.Printf("%s: %d \n", o.Type, o.Id)
 }
 
-func (o *Uvexecutor) getName() string {
+func (o *Uvexecutor) GetName() string {
 	return "uvexecutor"
 }

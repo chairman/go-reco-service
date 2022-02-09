@@ -97,7 +97,7 @@ func ParseExecutor(exectorNode *utils.JsonNode) Executor {
 		return nil
 	}
 	executor := CreateExecutor(excutorId, excutorType, exectorNode)
-	fmt.Println(" executor.getName:", executor.getName())
+	fmt.Println(" executor.getName:", executor.GetName())
 	return executor
 }
 

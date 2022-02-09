@@ -120,12 +120,41 @@ func GetRulesHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"msg": "ok", "code": 200, "data": models.RuleConfigs})
 }
 
+type Params struct {
+	sex int
+}
+
 func RecoProcessHandler(c *gin.Context) {
-	fmt.Println("find a single Rules: ", models.Rules)
-	jsons, errs := json.Marshal(models.Rules) //转换成JSON返回的是byte[]
-	if errs != nil {
-		fmt.Println(errs.Error())
+	rawRes, err := c.GetRawData()
+	if err != nil {
+		log.Fatal("callback http body is empty")
+		return
 	}
-	fmt.Printf("Found multiple documents (array of pointers): %+v\n", string(jsons))
+	if len(rawRes) == 0 {
+		log.Fatal("callback http body is empty")
+		return
+	}
+	paramsJsonstr := string(rawRes)
+	fmt.Println("paramsJsonstr: ", paramsJsonstr)
+	dec := json.NewDecoder(strings.NewReader(paramsJsonstr))
+	//var params Params
+	var params map[string]string
+	if err := dec.Decode(&params); err == io.EOF {
+		fmt.Println(err)
+	} else if err != nil {
+		log.Fatal(err)
+	}
+	context := models.Context{}
+	context.Params = params
+	for i := 0; i < len(models.Rules); i++ {
+		rule := models.Rules[i]
+		selector := rule.Selector
+		if selector.Judge(context) {
+			executor := rule.Executor
+			executor.Process(context)
+			fmt.Printf("Description:%s,RuleId: %s \n ", rule.Description, rule.RuleId)
+			fmt.Printf("Description:%s,RuleId: %s \n ", executor.GetName())
+		}
+	}
 	c.JSON(http.StatusOK, gin.H{"msg": "ok", "code": 200, "data": models.RuleConfigs})
 }

@@ -1,5 +1,5 @@
 package models
 
 type State struct {
-	cache map[string]string
+	Cache map[string]string
 }
