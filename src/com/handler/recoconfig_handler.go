@@ -146,15 +146,16 @@ func RecoProcessHandler(c *gin.Context) {
 	}
 	context := models.Context{}
 	context.Params = params
+	var rs []int
 	for i := 0; i < len(models.Rules); i++ {
 		rule := models.Rules[i]
 		selector := rule.Selector
 		if selector.Judge(context) {
 			executor := rule.Executor
-			executor.Process(context)
+			rs = executor.Process(context)
 			fmt.Printf("Description:%s,RuleId: %s \n ", rule.Description, rule.RuleId)
 			fmt.Printf("Description:%s,RuleId: %s \n ", executor.GetName())
 		}
 	}
-	c.JSON(http.StatusOK, gin.H{"msg": "ok", "code": 200, "data": models.RuleConfigs})
+	c.JSON(http.StatusOK, gin.H{"msg": "ok", "code": 200, "data": rs})
 }

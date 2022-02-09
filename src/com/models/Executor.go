@@ -3,9 +3,20 @@ package models
 import "fmt"
 
 type Executor interface {
-	Init(context Context)
-	Process(context Context)
+	Process(context Context) []int
 	GetName() string
+}
+
+type testInt func(int) bool
+
+func filter(slice []int, f testInt) []int {
+	var result []int
+	for _, value := range slice {
+		if f(value) {
+			result = append(result, value)
+		}
+	}
+	return result
 }
 
 type Order struct {
@@ -14,16 +25,28 @@ type Order struct {
 	executors []Executor
 }
 
-func (o *Order) Init(context Context) {
-}
-
-func (o *Order) Process(context Context) {
+func (o *Order) Process(context Context) []int {
+	var result []int
 	if o.executors != nil {
 		for _, executor := range o.executors {
 			fmt.Printf("%s: \n", executor.GetName())
-			executor.Process(context)
+			var t1 = result
+			var t2 = executor.Process(context)
+
+			var r []int
+
+			for _, v := range t1 {
+				r = append(r, v)
+			}
+
+			for _, v := range t2 {
+				r = append(r, v)
+			}
+
+			result = r
 		}
 	}
+	return result
 }
 
 func (o *Order) GetName() string {
@@ -36,11 +59,13 @@ type Uvexecutor struct {
 	KeyPrefix string
 }
 
-func (o *Uvexecutor) Init(context Context) {
-}
-
-func (o *Uvexecutor) Process(context Context) {
+func (o *Uvexecutor) Process(context Context) []int {
 	fmt.Printf("%s: %d \n", o.Type, o.Id)
+	//recoData := context.RecoData
+	//RecoData = append(recoData, 1)
+	var result []int
+	result = append(result, 1)
+	return result
 }
 
 func (o *Uvexecutor) GetName() string {
