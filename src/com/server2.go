@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"github.com/gorilla/mux"
-	"go-reco-service/src/com/drivers"
+	_ "go-reco-service/src/com/drivers"
 	"go-reco-service/src/com/router"
 	"go-reco-service/src/com/utils/vlog"
 	"log"
@@ -14,7 +14,6 @@ import (
 )
 
 func main() {
-	drivers.Init()
 	muxRouter := mux.NewRouter()
 
 	// register route handlers
