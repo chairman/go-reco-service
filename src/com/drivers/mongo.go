@@ -16,7 +16,7 @@ type MongoDrivers struct {
 var MgoClient *mongo.Client
 var MgoDbName string
 
-func Init() {
+func init() {
 	MgoClient = Connect()
 	MgoDbName = "data"
 }
