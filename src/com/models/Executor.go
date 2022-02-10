@@ -1,6 +1,9 @@
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"go-reco-service/src/com/redis"
+)
 
 type Executor interface {
 	Process(context Context) []int
@@ -53,6 +56,7 @@ func (o *Uvexecutor) Process(context Context) []int {
 	//RecoData = append(recoData, 1)
 	var result []int
 	result = append(result, 1)
+	redis.Set("b", "222")
 	return result
 }
 
